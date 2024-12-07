@@ -1,0 +1,6 @@
+Shell Scripts - my personal collection of useful bash scripts
+
+Installation:
+	git clone https://github.com/dhennigar/shell-scripts
+	cd shell-scripts
+	make install

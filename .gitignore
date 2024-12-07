@@ -1,0 +1,10 @@
+# Ignore temporary files
+*~
+*.swp
+.DS_Store
+
+# Ignore backup files
+*.bak
+
+# Ignore the build directory (if you plan to build)
+build/
