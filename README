@@ -4,3 +4,8 @@ Installation:
 	git clone https://github.com/dhennigar/shell-scripts
 	cd shell-scripts
 	make install
+
+Third-party scripts:
+	select-window.sh: Written by Adrien Le Guillo and
+	licensed under the MIT license. See file header
+	for details.
