@@ -1,4 +1,9 @@
-                    GNU GENERAL PUBLIC LICENSE
+This repository is licensed under the GNU General Public License v3, except where otherwise noted.
+
+The file `select-window.sh` is not authored by me and is licensed under the MIT License. Refer to the file's header for details.
+
+
+		     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
