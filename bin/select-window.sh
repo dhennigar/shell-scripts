@@ -2,7 +2,7 @@
 
 # select-window.sh --- select an i3/sway window using dmenu
 
-# Author: Adrien Le Guillo
+# Copyright (c) Adrien Le Guillo (original author, year unknown)
 
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
