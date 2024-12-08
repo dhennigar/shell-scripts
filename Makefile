@@ -1,22 +1,29 @@
-# Define installation directories
-BIN_DIR = $(HOME)/.local/bin
+# Define the directories
+INSTALL_DIR := $(HOME)/.local/bin
+SCRIPT_DIR := $(PWD)/bin
 
-# List of scripts to install
-SCRIPTS = $(wildcard bin/*.sh)
+# List all shell script files you want to install
+SCRIPTS := $(wildcard $(SCRIPT_DIR)/*.sh)
 
-# Default target: install the scripts
-install: $(SCRIPTS)
-	@echo "Installing scripts to $(BIN_DIR)..."
-	@mkdir -p $(BIN_DIR)
-	@cp $(SCRIPTS) $(BIN_DIR)
-	@chmod +x $(BIN_DIR)/*.sh
+# Install all shell scripts to INSTALL_DIR
+install:
+	@echo "Installing shell scripts..."
+	@for script in $(SCRIPTS); do \
+		ln -sf $$script $(INSTALL_DIR)/$$(basename $$script); \
+	done
+	@echo "Shell scripts installed."
 
-# Uninstall the scripts
+# Uninstall the shell scripts only if they were installed by this repo
 uninstall:
-	@echo "Uninstalling scripts from $(BIN_DIR)..."
-	@rm -f $(BIN_DIR)/*.sh
+	@echo "Uninstalling shell scripts..."
+	@for script in $(SCRIPTS); do \
+		rm -f $(INSTALL_DIR)/$$(basename $$script); \
+	done
+	@echo "Shell scripts uninstalled."
 
-# Clean up temporary files
-clean:
-	@echo "Cleaning up..."
-	@rm -f *.bak *~ .swp
+# List files that will be installed (optional, just for checking)
+list:
+	@echo "Scripts to be installed:"
+	@for script in $(SCRIPTS); do \
+		echo $$script; \
+	done

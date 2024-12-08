@@ -1,8 +1,22 @@
 #!/usr/bin/env bash
 
-### new-workspace.sh --- jump to the lowest empty workspace.
+# new-workspace.sh --- jump to the lowest empty workspace.
 
-# Options
+# Copyright (c) 2024 Daniel Hennigar
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+
 while getopts "hdt" opt; do
     case "$opt" in
 	h|help)
@@ -25,13 +39,11 @@ while getopts "hdt" opt; do
 	esac
 done
 
-# Variables
 workspaces=($( swaymsg -t get_workspaces | jq -r '.[].num' | sort -n ))
 next_workspace=$(echo "${workspaces[@]}" |
 		     awk -v RS='\\s+' '
 		     { a[$1] } END { for(i = 1; i in a; ++i); print i }')
 
-# Debugging information
 [[ "$debug" ]] && {
     for i in ${workspaces[@]}
     do
@@ -40,6 +52,5 @@ next_workspace=$(echo "${workspaces[@]}" |
     echo "NEXT: $next_workspace"
 }
 
-# Main script
 [[ "$take" ]] && swaymsg "move window to workspace $next_workspace"
 swaymsg "workspace $next_workspace"

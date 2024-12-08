@@ -1,18 +1,31 @@
 #!/bin/bash
-# select-theme.sh
 
-if [[ -n "$1" ]]; then
-    theme="$1"
-else
-    theme=$(echo -e "day\nnight\nmorning\nbright\nacme" |
-		fuzzel -d -l 6 -p "Select theme > ");
-fi
+# select-theme.sh --- choose a theme and update config files accordingly
+
+# Copyright (c) 2024 Daniel Hennigar
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+theme=$(echo -e "day\nnight\nmorning\nbright\nacme" |
+	    fuzzel -d -l 6 -p "Select theme > ");
 
 case $theme in
     day)
 	cp ~/.config/alacritty/themes/tomorrow-day.toml \
 	   ~/.config/alacritty/colors.toml
 	gsettings set org.gnome.desktop.interface gtk-theme Mint-Yz-Base-Grey
+	gsettings set org.gnome.desktop.interface color-scheme prefer-light
 	emacsclient -e "(load-theme-disable-others 'drh-tomorrow-day)"
 	# Match fuzzel colors with Emacs theme
 	sed -i '/^background=/c\background=ffffffff' ~/.config/fuzzel/fuzzel.ini
@@ -30,6 +43,7 @@ case $theme in
 	cp ~/.config/alacritty/themes/tomorrow-night.toml \
 	   ~/.config/alacritty/colors.toml
 	gsettings set org.gnome.desktop.interface gtk-theme Mint-Yz-Dark-Grey
+	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 	emacsclient -e "(load-theme-disable-others 'drh-tomorrow-night)"
 	# Match fuzzel colors with Emacs theme
 	sed -i '/^background=/c\background=1d1f21ff' ~/.config/fuzzel/fuzzel.ini
@@ -47,6 +61,7 @@ case $theme in
 	cp ~/.config/alacritty/themes/tomorrow-morning.toml \
 	   ~/.config/alacritty/colors.toml
 	gsettings set org.gnome.desktop.interface gtk-theme Mint-Yz-Base-Grey
+	gsettings set org.gnome.desktop.interface color-scheme prefer-light
 	emacsclient -e "(load-theme-disable-others 'drh-tomorrow-morning)"
 	# Match Fuzzel colors with Emacs theme
 	sed -i '/^background=/c\background=fff0d0ff' ~/.config/fuzzel/fuzzel.ini
@@ -64,6 +79,7 @@ case $theme in
 	cp ~/.config/alacritty/themes/tomorrow-bright.toml \
 	   ~/.config/alacritty/colors.toml
 	gsettings set org.gnome.desktop.interface gtk-theme Mint-Yz-Dark-Grey
+	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 	emacsclient -e "(load-theme-disable-others 'drh-tomorrow-bright)"
 	# Match Fuzzel colors with Emacs theme
 	sed -i '/^background=/c\background=000000ff' ~/.config/fuzzel/fuzzel.ini
@@ -81,6 +97,7 @@ case $theme in
 	cp ~/.config/alacritty/themes/acme.toml \
 	   ~/.config/alacritty/colors.toml
 	gsettings set org.gnome.desktop.interface gtk-theme Mint-Yz-Base-Grey
+	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 	emacsclient -e "(load-theme-disable-others 'drh-mono-acme)"
 	# Match Fuzzel colors with Emacs theme
 	sed -i '/^background=/c\background=fefdcfff' ~/.config/fuzzel/fuzzel.ini
