@@ -17,8 +17,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-theme=$(echo -e "day\nnight\nmorning\nbright\nacme" |
-	    fuzzel -d -l 6 -p "Select theme > ");
+if [[ -n "$1" ]]; then
+	theme="$1"
+else
+	theme=$(echo -e "day\nnight\nmorning\nbright\nacme" |
+		    fuzzel -d -l 6 -p "Select theme > ");
+fi
 
 case $theme in
     day)
