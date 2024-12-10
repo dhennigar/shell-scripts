@@ -21,13 +21,13 @@ if [[ -n "$1" ]]; then
 	theme="$1"
 else
 	theme=$(echo -e "day\nnight\nmorning\nbright\nacme" |
-		    fuzzel -d -l 6 -p "Select theme > ");
+		fuzzel -d -l 6 -p "Select theme > ")
 fi
 
 case $theme in
-    day)
+day)
 	cp ~/.config/alacritty/themes/tomorrow-day.toml \
-	   ~/.config/alacritty/colors.toml
+		~/.config/alacritty/colors.toml
 	gsettings set org.gnome.desktop.interface gtk-theme Mint-Yz-Base-Grey
 	gsettings set org.gnome.desktop.interface color-scheme prefer-light
 	emacsclient -e "(load-theme-disable-others 'drh-tomorrow-day)"
@@ -43,9 +43,9 @@ case $theme in
 	sed -i '/^selection-match=/c\selection-match=c82829ff' ~/.config/fuzzel/fuzzel.ini
 	sed -i '/^counter=/c\counter=8e908cff' ~/.config/fuzzel/fuzzel.ini
 	;;
-    night)
+night)
 	cp ~/.config/alacritty/themes/tomorrow-night.toml \
-	   ~/.config/alacritty/colors.toml
+		~/.config/alacritty/colors.toml
 	gsettings set org.gnome.desktop.interface gtk-theme Mint-Yz-Dark-Grey
 	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 	emacsclient -e "(load-theme-disable-others 'drh-tomorrow-night)"
@@ -61,9 +61,9 @@ case $theme in
 	sed -i '/^selection-match=/c\selection-match=cc6666ff' ~/.config/fuzzel/fuzzel.ini
 	sed -i '/^counter=/c\counter=969896ff' ~/.config/fuzzel/fuzzel.ini
 	;;
-    morning)
+morning)
 	cp ~/.config/alacritty/themes/tomorrow-morning.toml \
-	   ~/.config/alacritty/colors.toml
+		~/.config/alacritty/colors.toml
 	gsettings set org.gnome.desktop.interface gtk-theme Mint-Yz-Base-Grey
 	gsettings set org.gnome.desktop.interface color-scheme prefer-light
 	emacsclient -e "(load-theme-disable-others 'drh-tomorrow-morning)"
@@ -79,9 +79,9 @@ case $theme in
 	sed -i '/^selection-match=/c\selection-match=c82829ff' ~/.config/fuzzel/fuzzel.ini
 	sed -i '/^counter=/c\counter=8e908cff' ~/.config/fuzzel/fuzzel.ini
 	;;
-    bright)
+bright)
 	cp ~/.config/alacritty/themes/tomorrow-bright.toml \
-	   ~/.config/alacritty/colors.toml
+		~/.config/alacritty/colors.toml
 	gsettings set org.gnome.desktop.interface gtk-theme Mint-Yz-Dark-Grey
 	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 	emacsclient -e "(load-theme-disable-others 'drh-tomorrow-bright)"
@@ -97,9 +97,9 @@ case $theme in
 	sed -i '/^selection-match=/c\selection-match=d54e53ff' ~/.config/fuzzel/fuzzel.ini
 	sed -i '/^counter=/c\counter=969896ff' ~/.config/fuzzel/fuzzel.ini
 	;;
-    acme)
+acme)
 	cp ~/.config/alacritty/themes/acme.toml \
-	   ~/.config/alacritty/colors.toml
+		~/.config/alacritty/colors.toml
 	gsettings set org.gnome.desktop.interface gtk-theme Mint-Yz-Base-Grey
 	gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 	emacsclient -e "(load-theme-disable-others 'drh-mono-acme)"
@@ -114,5 +114,5 @@ case $theme in
 	sed -i '/^selection-text=/c\selection-text=4d4d4cff' ~/.config/fuzzel/fuzzel.ini
 	sed -i '/^selection-match=/c\selection-match=c82829ff' ~/.config/fuzzel/fuzzel.ini
 	sed -i '/^counter=/c\counter=8e908cff' ~/.config/fuzzel/fuzzel.ini
-	;;    
+	;;
 esac

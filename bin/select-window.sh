@@ -26,7 +26,6 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
-
 set -e # error if a command as non 0 exit
 set -u # error if undefined variable
 
@@ -76,57 +75,55 @@ Examples:
 "
 
 # Options parsing
-INVALID_ARGS=0 
+INVALID_ARGS=0
 OPTS=$(getopt -n $NAME -o f:d:hv \
-       --long format:,dmenu-cmd:,help,version -- "$@") || INVALID_ARGS=1
+	--long format:,dmenu-cmd:,help,version -- "$@") || INVALID_ARGS=1
 
 # Exit with error and print $HELP if an invalid argument is passed
 # the previous command is allowed to fail for this purpose
-if [ "$INVALID_ARGS" -ne "0" ]
-then
-    echo "$HELP"
-    exit 1
+if [ "$INVALID_ARGS" -ne "0" ]; then
+	echo "$HELP"
+	exit 1
 fi
 
 # Required for getopt parsing
 eval set -- "$OPTS"
 unset OPTS
 
-while :
-do
-    case "$1" in
-        -f | --format)
-            FORMAT=$2
-            shift 2 
-            ;;
-        -d | --dmenu-cmd)
-            DMENU=$2
-            shift 2 
-            ;;
-        -h | --help)
-            echo "$HELP"
-            exit 
-            ;;
-        -v | --version)
-            echo "Version $VERSION"
-            exit 
-            ;;
-        --) 
-            shift
-            break 
-            ;;
-        *)
-            echo "$HELP"
-            exit 1
-            break 
-            ;;
-    esac
+while :; do
+	case "$1" in
+	-f | --format)
+		FORMAT=$2
+		shift 2
+		;;
+	-d | --dmenu-cmd)
+		DMENU=$2
+		shift 2
+		;;
+	-h | --help)
+		echo "$HELP"
+		exit
+		;;
+	-v | --version)
+		echo "Version $VERSION"
+		exit
+		;;
+	--)
+		shift
+		break
+		;;
+	*)
+		echo "$HELP"
+		exit 1
+		break
+		;;
+	esac
 done
 
 # FORMAT as a `jq` concatenation string
 FORMAT="$FORMAT (%I)"
-FORMAT=$(echo "$FORMAT" | \
-        sed  's/%O/" + .output + "/
+FORMAT=$(echo "$FORMAT" |
+	sed 's/%O/" + .output + "/
               s/%W/" + .workspace + "/
               s/%A/" + .app_id + "/
               s/%T/" + .name + "/
@@ -135,8 +132,8 @@ FORMAT=$(echo "$FORMAT" | \
               s/\(.*\)/\"\1\"/')
 
 # Get the container ID from the node tree
-CON_ID=$(swaymsg -t get_tree | \
-    jq -r ".nodes[] 
+CON_ID=$(swaymsg -t get_tree |
+	jq -r ".nodes[] 
         | {output: .name, content: .nodes[]}
         | {output: .output, workspace: .content.name, 
           apps: .content 
@@ -146,8 +143,8 @@ CON_ID=$(swaymsg -t get_tree | \
         | {output: .output, workspace: .workspace, 
            id: .apps.id, app_id: .apps.app_id, name: .apps.name }
         | $FORMAT
-        | tostring" | \
-    $DMENU -i -p "Window Switcher > ")
+        | tostring" |
+	$DMENU -i -p "Window Switcher > ")
 
 # Requires the actual `id` to be at the end and between paretheses
 CON_ID=${CON_ID##*(}

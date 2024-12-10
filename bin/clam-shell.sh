@@ -18,7 +18,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 if grep -q open /proc/acpi/button/lid/LID/state; then
-    swaymsg output eDP-1 enable
+	swaymsg output eDP-1 enable
 else
-    swaymsg output eDP-1 disable
+	swaymsg output eDP-1 disable
 fi

@@ -18,14 +18,10 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 for prog in grim slurp; do
-    if which "$prog" &> /dev/null; then
-	grim -g "$(slurp)"
-	notify-send -t 3000 "Screenshot" "Saved in $GRIM_DEFAULT_DIR"	
-    else
-	notify-send "Install GRIM and SLURP."
-    fi
+	if which "$prog" &>/dev/null; then
+		grim -g "$(slurp)"
+		notify-send -t 3000 "Screenshot" "Saved in $GRIM_DEFAULT_DIR"
+	else
+		notify-send "Install GRIM and SLURP."
+	fi
 done
-
-
-
-
