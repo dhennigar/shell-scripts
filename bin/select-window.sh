@@ -31,8 +31,8 @@ set -e # error if a command as non 0 exit
 set -u # error if undefined variable
 
 # Default parameters
-# FORMAT="W:%W | %A - %T"
-FORMAT="%A"
+FORMAT="W:%W | %A - %T"
+# FORMAT="%A"
 DMENU="dmenu"
 
 # Doc
@@ -77,7 +77,7 @@ Examples:
 
 # Options parsing
 INVALID_ARGS=0
-OPTS=$(getopt -n $NAME -o f:d:hv \
+OPTS=$(getopt -n "$NAME" -o f:d:hv \
 	--long format:,dmenu-cmd:,help,version -- "$@") || INVALID_ARGS=1
 
 # Exit with error and print $HELP if an invalid argument is passed
@@ -130,14 +130,15 @@ fi
 
 # FORMAT as a `jq` concatenation string
 FORMAT="$FORMAT (%I)"
-FORMAT=$(echo "$FORMAT" |
-	sed 's/%O/" + .output + "/
-              s/%W/" + .workspace + "/
-              s/%A/" + .app_id + "/
-              s/%T/" + .name + "/
-              s/%I/" + .id + "/
-              s/"/\"/
-              s/\(.*\)/\"\1\"/')
+# Replace tokens using Bash parameter expansion
+FORMAT=${FORMAT//%O/"\" + .output + \""}
+FORMAT=${FORMAT//%W/"\" + .workspace + \""}
+FORMAT=${FORMAT//%A/"\" + .app_id + \""}
+FORMAT=${FORMAT//%T/"\" + .name + \""}
+FORMAT=${FORMAT//%I/"\" + .id + \""}
+# Wrap the entire string in double quotes
+FORMAT="\"$FORMAT\""
+
 
 # Get the container ID from the node tree
 CON_ID=$($MSG -t get_tree |
