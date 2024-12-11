@@ -1,8 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
 # select-window.sh --- select an i3/sway window using dmenu
 
 # Copyright (c) Adrien Le Guillo (original author, year unknown)
+# Copyright (c) Daniel Hennigar (added i3/sway compatibility)
 
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -37,7 +38,7 @@ DMENU="dmenu"
 # Doc
 NAME="$(basename "$0")"
 VERSION="0.2"
-DESCRIPTION="Window switcher for Sway using dmenu"
+DESCRIPTION="Window switcher for i3/sway using dmenu"
 HELP="
 $NAME. $VERSION - $DESCRIPTION
 
@@ -120,6 +121,13 @@ while :; do
 	esac
 done
 
+# Set appopriate MSG for i3/sway
+MSG=i3-msg
+if [[ -S "SWAYSOCK" ]]
+then
+    MSG=swaymsg
+fi
+
 # FORMAT as a `jq` concatenation string
 FORMAT="$FORMAT (%I)"
 FORMAT=$(echo "$FORMAT" |
@@ -132,7 +140,7 @@ FORMAT=$(echo "$FORMAT" |
               s/\(.*\)/\"\1\"/')
 
 # Get the container ID from the node tree
-CON_ID=$(swaymsg -t get_tree |
+CON_ID=$($MSG -t get_tree |
 	jq -r ".nodes[] 
         | {output: .name, content: .nodes[]}
         | {output: .output, workspace: .content.name, 
@@ -151,4 +159,4 @@ CON_ID=${CON_ID##*(}
 CON_ID=${CON_ID%)}
 
 # Focus on the chosen window
-swaymsg [con_id=$CON_ID] focus
+$MSG "[con_id=$CON_ID] focus"
